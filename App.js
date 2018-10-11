@@ -6,18 +6,7 @@ import ProductItem from './components/ProductItem';
 import AddProduct from './components/AddProduct';
 import CustomizedTable from './components/CustomizedTable';
 import axios from 'axios';
-const products=[
-      {
-        name:'pawpaw',
-        price:800
-      },
-      {
-        name:'watermelon',
-        price:700
-      }
 
-];
-localStorage.setItem('products', JSON.stringify(products));
 
 class App extends Component {
   constructor(props) {
@@ -31,12 +20,20 @@ class App extends Component {
   }
  
   getProducts() {
-    return  JSON.parse(localStorage.getItem('products'));
+    return  this.state.products;
    
   }
   componentDidMount() {
-    const products = this.getProducts();
-    this.setState({products});
+    
+  fetch("http://localhost:8080/products")
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        products: result
+                    });
+                },
+            )
   }
   
  
